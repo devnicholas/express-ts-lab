@@ -1,12 +1,17 @@
 import { Router } from 'express'
 import UserController from './controllers/UserController'
+import AuthMiddleware from './middlewares/AuthMiddleware'
 
 const routes = Router()
 
-routes.get('/users', UserController.index)
 routes.post('/users', UserController.store)
-routes.get('/users/:id', UserController.find)
-routes.put('/users/:id', UserController.update)
-routes.delete('/users/:id', UserController.delete)
+routes.post('/users/login', UserController.login)
+
+routes.use(AuthMiddleware)
+
+routes.get('/me', UserController.me)
+routes.put('/me', UserController.update)
+routes.delete('/me', UserController.delete)
+routes.get('/users', UserController.index)
 
 export default routes
